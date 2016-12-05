@@ -1,0 +1,93 @@
+{
+    "comment": "Custom build based on CentOS Atomic Host",
+
+    "osname": "centos-atomic-host",
+    "ref": "centos-atomic-host/7/x86_64/standard",
+
+    "repos": ["CentOS-Base", "CentOS-updates", "CentOS-extras",
+              "rhel-atomic-rebuild", "CentOS-CR"],
+
+    "selinux": true,
+
+    "bootstrap_packages": ["filesystem", "glibc", "nss-altfiles", "shadow-utils",
+                           "centos-release-atomic"],
+
+    "install-langs": ["en_US"],
+
+    "documentation": false,
+
+    "initramfs-args": ["--no-hostonly", "--add", "iscsi"],
+
+    "postprocess-script": "treecompose-post.sh",
+
+    "etc-group-members": ["wheel", "docker"],
+
+    "ignore-removed-users": ["root"],
+    "ignore-removed-groups": ["root"],
+    "check-passwd": { "type": "file", "filename": "passwd" },
+    "check-groups": { "type": "file", "filename": "group" },
+
+    "packages": ["atomic",
+                 "runc",
+		 "systemd", "kernel", "rpm-ostree-client",
+		 "dracut-network",
+		 "biosdevname",
+		 "coreutils",
+		 "lvm2",
+		 "grub2", "grub2-efi", "ostree-grub2",
+		 "efibootmgr", "shim",
+		 "e2fsprogs", "xfsprogs",
+		 "mdadm",
+		 "docker",
+		 "selinux-policy-targeted",
+		 "sssd",
+		 "cloud-init",
+		 "cloud-utils-growpart",
+		 "tar", "xz", "gzip", "bzip2",
+		 "less",
+		 "kexec-tools",
+		 "iscsi-initiator-utils",
+		 "bridge-utils",
+                 "nfs-utils",
+		 "subscription-manager",
+		 "subscription-manager-plugin-ostree",
+		 "subscription-manager-plugin-container",
+		 "openssh-server", "openssh-clients",
+		 "chrony",
+		 "logrotate",
+		 "passwd",
+                 "iptables-services",
+		 "NetworkManager", "vim-minimal", "nano",
+		 "sudo",
+		 "tuned", "tuned-profiles-atomic",
+		 "kubernetes", "etcd",
+		 "flannel",
+		 "irqbalance",
+		 "bash-completion",
+		 "rsync", "tmux",
+		 "net-tools", "nmap-ncat",
+		 "bind-utils",
+		 "authconfig",
+		 "policycoreutils-python",
+		 "cockpit-shell",
+		 "cockpit-bridge",
+                 "cockpit-docker",
+                 "cockpit-ostree",
+		 "setools-console",
+		 "atomic-devmode",
+		 "docker-latest",
+		 "docker-lvm-plugin",
+		 "docker-novolume-plugin",
+                 "stub-redhat-lsb-core-only-for-ceph",
+                 "ceph-common", "device-mapper-multipath",
+                 "sg3_utils", "glusterfs-fuse"],
+
+    "remove-from-packages": [["yum", "/usr/bin/.*"],
+			     ["kernel", "/lib/modules/.*/drivers/gpu"],
+			     ["linux-firmware", "/usr/lib/firmware/radeon/.*"],
+			     ["filesystem", "/usr/share/backgrounds"]],
+
+    "units": ["docker.service", "tuned.service", "docker-storage-setup.service"],
+
+    "default_target": "multi-user.target"
+}
